@@ -1,0 +1,44 @@
+<nav>
+    <h2>{{ section.settings.nested_mobile_title }}</h2>
+    <ul>
+        {% for link in section.settings.menu.links %}
+            <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+                {% if link.links != blank %}
+                    <ul>
+                        {% for sublink in link.links %}
+                            <li>
+                                <a href="{{ sublink.url }}">{{ sublink.title }}</a>
+                                {% if sublink.links.size > 0 %}
+                                    {% include 'submenu', link: sublink %}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+
+
+{% schema %}
+    {
+        "name": "Nested Menu",
+        "settings": [
+            {
+                "type": "text",
+                "id": "nested_mobile_title",
+                "default": "Menu",
+                "label": "Nested Menu Title"
+            },
+            {
+                "type": "link_list",
+                "id": "menu",
+                "default": "main-menu",
+                "label": "Nested Menu"
+            }
+        ]
+    }
+{% endschema %}
